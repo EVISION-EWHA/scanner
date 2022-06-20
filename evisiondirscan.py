@@ -5,6 +5,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import QCoreApplication, Qt
 
 import os
+import subprocess
 import re
 from pprint import pprint
 
@@ -57,23 +58,19 @@ class MyApp(QWidget):
         QMessageBox.about(self, "Check", "Success")
 
     def dirscan(self):
-        rootdir = self.le.text() #사용자 입력 경로 저장
-        os.chdir(rootdir) #사용자가 입력한 경로로 path 이동
-        path=os.getcwd()
+        #경로 설정할 수 있는 방법이 있을까봐 일단 주석으로 넣어둠
+        #rootdir = self.le.text() #사용자 입력 경로 저장
+        #os.chdir(rootdir) #사용자가 입력한 경로로 path 이동
+        #path=os.getcwd()
+        #print(path)
+        
+        self.tb.append("scanning ... ")
+        # traverse the software list
+        #지금은 편의상 putty넣어둠 나중에 파일명 바꾸면 됨!
+        result=os.popen('wmic product where name="PuTTY release 0.75 (64-bit)" get name, version').read()
+        print(result)
+        
 
-        if path == "":
-            QMessageBox.about(self,"Notice","please enter the root dir")
-
-        else:
-            print(path)
-            self.tb.append("scanning ... ")
-            try:
-                filenames = os.listdir(path)
-                for filename in filenames:
-                    full_filename = os.path.join(dirname, filename)
-                    print(full_filename)
-            except:
-                self.tb.append("         "+"         "+"there's no directory")
 
 
 if __name__ == '__main__':
