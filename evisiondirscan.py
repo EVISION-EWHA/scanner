@@ -67,9 +67,23 @@ class MyApp(QWidget):
         self.tb.append("scanning ... ")
         # traverse the software list
         #지금은 편의상 putty넣어둠 나중에 파일명 바꾸면 됨!
-        result=os.popen('wmic product where name="PuTTY release 0.75 (64-bit)" get name, version').read()
-        print(result)
-        
+        # result=os.popen('wmic product where name="PuTTY release 0.75 (64-bit)" get name, version').read()
+        program = "Cyberduck"
+        get_ver = 'wmic product where name="' + program + '" get version'
+        get_name_ver = 'wmic product where name="' + program + '" get name, version'
+        ver_result=os.popen(get_ver).read()
+        print(type(ver_result))
+        total_result = os.popen(get_name_ver).read()
+        print(total_result)
+        print(ver_result)
+
+        # resultV = os.popen('wmic product where name="Cyberduck" get version').read()
+        self.tb.append("Scan Completed\n ----------------------------")
+        self.tb.append(total_result)
+        if ver_result == '8.3.3.37544':
+            self.tb.append("----------------------------\n You are using latest version of " + program)
+        else:
+            self.tb.append("-----------------------------\n" + program + " has to be updated")
 
 
 
