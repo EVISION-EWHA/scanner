@@ -14,7 +14,7 @@ class MyApp(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
-        
+
     def initUI(self):
         self.setWindowTitle('EVI$ION SCANNER PROJECT')
         self.setWindowIcon(QIcon('evision-logo.png'))
@@ -68,7 +68,7 @@ class MyApp(QWidget):
         # traverse the software list
         #지금은 편의상 putty넣어둠 나중에 파일명 바꾸면 됨!
         # result=os.popen('wmic product where name="PuTTY release 0.75 (64-bit)" get name, version').read()
-        program = "Cyberduck"
+        program = self.le.text()
         get_ver = 'wmic product where name="' + program + '" get version'
         get_name_ver = 'wmic product where name="' + program + '" get name, version'
         ver_result=os.popen(get_ver).read()
@@ -80,12 +80,19 @@ class MyApp(QWidget):
         # resultV = os.popen('wmic product where name="Cyberduck" get version').read()
         self.tb.append("Scan Completed\n ----------------------------")
         self.tb.append(total_result)
-        if ver_result == '8.3.3.37544':
-            self.tb.append("----------------------------\n You are using latest version of " + program)
-        else:
-            self.tb.append("-----------------------------\n" + program + " has to be updated")
-
-
+        if program == 'Cyberduck':
+            result = ver_result[:11]
+            if result == '8.3.3.37544':
+                self.tb.append("----------------------------\n You are using latest version of " + program)
+            else:
+                self.tb.append("-----------------------------\n" + program + " needs to be updated")
+        elif program == 'Node.js':
+            result = ver_result[-13:-6]
+           # print('.'+result + '.')
+            if result == '14.17.6':
+                self.tb.append("----------------------------\n You are using latest version of " + program)
+            else:
+                self.tb.append("-----------------------------\n" + program + " needs to be updated")
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
